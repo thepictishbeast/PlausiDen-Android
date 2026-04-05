@@ -1,0 +1,21 @@
+# Rust
+target/
+
+# Gradle
+.gradle/
+build/
+app/build/
+local.properties
+
+# APK
+*.apk
+*.aab
+
+# IDE
+.idea/
+*.iml
+
+# OS
+.DS_Store
+*.log
+.env

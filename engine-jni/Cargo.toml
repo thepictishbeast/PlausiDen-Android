@@ -1,0 +1,17 @@
+[package]
+name = "plausiden-engine-jni"
+version = "0.1.0"
+edition = "2024"
+description = "JNI bridge for the PlausiDen engine on Android"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+jni = "0.21"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tracing = "0.1"
+# plausiden-engine = { path = "..." }  # TODO: add when engine crate is published

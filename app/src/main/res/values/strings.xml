@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PlausiDen</string>
+
+    <!-- Status card -->
+    <string name="status_header">Status</string>
+    <string name="status_running">Running</string>
+    <string name="status_paused">Paused</string>
+    <string name="artifact_count">Total artifacts generated: %1$d</string>
+
+    <!-- Intensity selector -->
+    <string name="intensity_header">Intensity</string>
+    <string name="intensity_low">Low</string>
+    <string name="intensity_medium">Med</string>
+    <string name="intensity_high">High</string>
+    <string name="intensity_max">Max</string>
+
+    <!-- Category toggles -->
+    <string name="categories_header">Categories</string>
+    <string name="category_browser">Browser History</string>
+    <string name="category_filesystem">Filesystem</string>
+    <string name="category_contacts">Contacts</string>
+    <string name="category_media">Media Files</string>
+    <string name="category_clipboard">Clipboard</string>
+
+    <!-- Schedule -->
+    <string name="schedule_header">Schedule</string>
+    <string name="schedule_hours_label">Active hours per day: %1$d</string>
+
+    <!-- Buttons -->
+    <string name="start_button">Start</string>
+    <string name="stop_button">Stop</string>
+
+    <!-- Notifications — INNOCUOUS text only -->
+    <string name="notification_title">Device Optimization</string>
+    <string name="notification_text">Device optimization running</string>
+</resources>

@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  rust-check:
+    name: Rust JNI Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-action/toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Check engine-jni compiles
+        working-directory: engine-jni
+        run: cargo check
+
+      - name: Run engine-jni tests
+        working-directory: engine-jni
+        run: cargo test
+
+      - name: Clippy
+        working-directory: engine-jni
+        run: cargo clippy -- -D warnings
+
+      - name: Format check
+        working-directory: engine-jni
+        run: cargo fmt -- --check
+
+  android-build:
+    name: Android Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug
