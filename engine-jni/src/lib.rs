@@ -4,9 +4,9 @@
 //! Each function has the correct JNI signature and returns stub data
 //! until the real engine crate is integrated.
 
-use jni::objects::{JClass, JString};
-use jni::sys::{jboolean, jint, JNI_TRUE};
 use jni::JNIEnv;
+use jni::objects::{JClass, JString};
+use jni::sys::{JNI_TRUE, jboolean, jint};
 use serde::Serialize;
 
 /// Result of artifact generation, returned as JSON to Kotlin.
@@ -98,12 +98,13 @@ pub extern "system" fn Java_com_plausiden_app_NativeBridge_generateArtifacts<'lo
         status: "ok".to_string(),
     };
 
-    let json = serde_json::to_string(&result).unwrap_or_else(|e| {
-        format!(r#"{{"status":"error","message":"{}"}}"#, e)
-    });
+    let json = serde_json::to_string(&result)
+        .unwrap_or_else(|e| format!(r#"{{"status":"error","message":"{}"}}"#, e));
 
-    env.new_string(&json)
-        .unwrap_or_else(|_| env.new_string("").expect("failed to create empty JNI string"))
+    env.new_string(&json).unwrap_or_else(|_| {
+        env.new_string("")
+            .expect("failed to create empty JNI string")
+    })
 }
 
 /// Get the current engine status.
@@ -129,12 +130,14 @@ pub extern "system" fn Java_com_plausiden_app_NativeBridge_getEngineStatus<'loca
         ],
     };
 
-    let json = serde_json::to_string(&status).unwrap_or_else(|e| {
-        format!(r#"{{"status":"error","message":"{}"}}"#, e)
-    });
+    let json = serde_json::to_string(&status)
+        .unwrap_or_else(|e| format!(r#"{{"status":"error","message":"{}"}}"#, e));
 
-    jni_env.new_string(&json)
-        .unwrap_or_else(|_| jni_env.new_string("").expect("failed to create empty JNI string"))
+    jni_env.new_string(&json).unwrap_or_else(|_| {
+        jni_env
+            .new_string("")
+            .expect("failed to create empty JNI string")
+    })
 }
 
 /// Configure the engine with a user profile.
@@ -207,12 +210,14 @@ pub extern "system" fn Java_com_plausiden_app_NativeBridge_getGeneratorList<'loc
         },
     ];
 
-    let json = serde_json::to_string(&generators).unwrap_or_else(|e| {
-        format!(r#"[{{"status":"error","message":"{}"}}]"#, e)
-    });
+    let json = serde_json::to_string(&generators)
+        .unwrap_or_else(|e| format!(r#"[{{"status":"error","message":"{}"}}]"#, e));
 
-    jni_env.new_string(&json)
-        .unwrap_or_else(|_| jni_env.new_string("[]").expect("failed to create empty JNI string"))
+    jni_env.new_string(&json).unwrap_or_else(|_| {
+        jni_env
+            .new_string("[]")
+            .expect("failed to create empty JNI string")
+    })
 }
 
 #[cfg(test)]
@@ -225,13 +230,11 @@ mod tests {
             category: "browser".to_string(),
             count: 2,
             risk_level: "medium".to_string(),
-            artifacts: vec![
-                ArtifactEntry {
-                    artifact_type: "browser_artifact".to_string(),
-                    description: "test".to_string(),
-                    timestamp: 1000,
-                },
-            ],
+            artifacts: vec![ArtifactEntry {
+                artifact_type: "browser_artifact".to_string(),
+                description: "test".to_string(),
+                timestamp: 1000,
+            }],
             status: "ok".to_string(),
         };
         let json = serde_json::to_string(&result).unwrap();
